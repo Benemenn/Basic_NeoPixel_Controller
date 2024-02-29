@@ -24,7 +24,7 @@ void loop() {
 
     switch(state){
         case 0:
-            ledStrip.setBrightness(50);
+            ledStrip.setStripBrightness(50);
             ledStrip.blinkColor(0, 177, 172, 500, 0, ledStrip.getStripLength());
             break;
         case 1:
@@ -32,12 +32,12 @@ void loop() {
             break;
 
         case 2:
-            ledStrip.setBrightness(20);
+            ledStrip.setStripBrightness(20);
             ledStrip.blinkColor(50, 25, 172, 200, 5, 9);
             break;
         case 3:
-            Color c(255, 255, 255);
-            ledStrip.blinkColor(c, 1000, 0, ledStrip.getStripLength());
+            simpleColor c(0, 0, 255);
+            ledStrip.blinkColor(c, 1000, 0, 1);
             break;
     }
 
