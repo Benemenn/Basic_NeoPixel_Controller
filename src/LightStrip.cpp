@@ -6,8 +6,8 @@
  * This class provides methods for controlling an Adafruit NeoPixel LED strip, including setting the color of individual LEDs,
  * blinking the entire strip, and more.
  * 
- * @version 0.1
- * @date 2024-02-28
+ * @version 0.2
+ * @date 2024-02-29
  * 
  * @copyright Copyright (c) 2024 Ben Cloos.
  * 
@@ -21,11 +21,11 @@
 #include "LightStrip.h"
 
 LightStrip::LightStrip(uint16_t numPixels, uint16_t pin, neoPixelType type, uint8_t brightness) :
-    ledStrip(numPixels, pin, type),
-    stripLength(numPixels),
-    stripBrightness(brightness)
+    Adafruit_NeoPixel(numPixels, pin, type),
+    stripLength(numPixels)
     {
-        this->ledStrip.begin();
+        this->setBrightness(brightness);
+        this->begin();
     }
 
 bool LightStrip::initialisationShow(){
@@ -70,16 +70,12 @@ bool LightStrip::initialisationShow(){
 }
 
 
-void LightStrip::setBrightness(uint8_t brightness) {
-    this->stripBrightness = brightness;
-    ledStrip.setBrightness(this->stripBrightness);
-}
 
 void LightStrip::setAndShowColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t startLed, uint8_t endLed){
     for(auto i = startLed; i < endLed; ++i){
-        ledStrip.setPixelColor(i, red, green, blue);
+        this->setPixelColor(i, red, green, blue);
     }
-    ledStrip.show();
+    this->show();
 }
 
 void LightStrip::setAndShowColor(uint8_t red, uint8_t green, uint8_t blue){
@@ -109,7 +105,7 @@ void LightStrip::blinkColor(uint8_t red, uint8_t green, uint8_t blue, uint64_t d
     }
 }
 
-void LightStrip::blinkColor(Color c, uint64_t delayTime, uint8_t startLed, uint8_t endLed){
+void LightStrip::blinkColor(simpleColor c, uint64_t delayTime, uint8_t startLed, uint8_t endLed){
     this->blinkColor(c.red, c.green, c.blue, delayTime, startLed, endLed);
 }
 
@@ -117,7 +113,7 @@ void LightStrip::setLEDs(uint8_t red, uint8_t green, uint8_t blue, uint8_t start
     this->setAndShowColor(red, green, blue, startLed, endLed);
 }
 
-void LightStrip::setLEDs(Color c, uint8_t startLed, uint8_t endLed){
+void LightStrip::setLEDs(simpleColor c, uint8_t startLed, uint8_t endLed){
     this->setAndShowColor(c.red, c.green, c.blue, startLed, endLed);
 }
 
@@ -128,28 +124,30 @@ void LightStrip::turnStripOff(){
 void LightStrip::breatheColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t delayTime, uint8_t startLed, uint8_t endLed, uint8_t maxBrightness, uint8_t minBrightness){
     if(millis() - this->lastChangeTime >= delayTime){
         lastChangeTime = millis();
+
+        uint8_t currentBrightness = this->getBrightness();
         
         switch(breatheDirection){
             case 0:
-                this->setBrightness(++this->stripBrightness);
+                this->setBrightness(++currentBrightness);
                 this->setLEDs(red, green, blue, startLed, endLed);
                 break;
             case 1:
-                this->setBrightness(--this->stripBrightness);
+                this->setBrightness(--currentBrightness);
                 this->setLEDs(red, green, blue, startLed, endLed);
                 break;
         }
 
-        if(this->stripBrightness >= maxBrightness){
+        if(this->getBrightness() >= maxBrightness){
             breatheDirection  = 1;
         }
-        else if(this->stripBrightness <= minBrightness){
+        else if(this->getBrightness() <= minBrightness){
             breatheDirection = 0;
         }
     }
 }
 
-void LightStrip::breatheColor(Color c, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness, uint8_t minBrightness){
+void LightStrip::breatheColor(simpleColor c, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness, uint8_t minBrightness){
     this->breatheColor(c.red, c.green, c.blue, delayTime, startLed, endLed, maxBrightness, minBrightness);
 }
 
@@ -159,5 +157,9 @@ uint8_t LightStrip::getStripLength(){
 } 
 
 uint8_t LightStrip::getStripBrightness(){
-    return this->stripBrightness;
+    return this->getBrightness();
 }
+
+void LightStrip::setStripBrightness(uint8_t brightness){
+    this->setBrightness(brightness);
+} 

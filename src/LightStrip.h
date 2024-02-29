@@ -6,8 +6,8 @@
  * This class provides methods for controlling an Adafruit NeoPixel LED strip, including setting the color of individual LEDs,
  * blinking the entire strip, and more.
  * 
- * @version 0.1
- * @date 2024-02-28
+ * @version 0.2
+ * @date 2024-02-29
  * 
  * @copyright Copyright (c) 2024 Ben Cloos.
  * 
@@ -19,12 +19,12 @@
 
 #include <Adafruit_NeoPixel.h>
 
-struct Color{
+struct simpleColor{
     uint8_t red;
     uint8_t green;
     uint8_t blue;
 
-    Color(uint8_t r, uint8_t g, uint8_t b){
+    simpleColor(uint8_t r, uint8_t g, uint8_t b){
         red = r;
         green = g;
         blue = b;
@@ -32,11 +32,11 @@ struct Color{
 
 };
 
-class LightStrip {
+class LightStrip : Adafruit_NeoPixel{
     private:
-        Adafruit_NeoPixel ledStrip;
+        //Adafruit_NeoPixel ledStrip;
         uint8_t stripLength;
-        uint8_t stripBrightness;
+        
 
         bool onState = false; 
         uint64_t lastChangeTime = 0; // needed for the non-blocking blinking function
@@ -87,14 +87,7 @@ class LightStrip {
          * @param brightness the brightness of the NeoPixels, which is a value between 0 and 255
          */
         bool initialisationShow();
-        
-        /**
-         * @brief Sets the brightness of the LEDs on the NeoPixel strip
-         * 
-         * @param brightness the brightness of the LEDs, which is a value between 0 and 255
-         */
-        void setBrightness(uint8_t brightness);
-        
+     
         /**
          * Blinks the NeoPixels on the strip in the specified color, with the specified delay time.
          * 
@@ -118,7 +111,7 @@ class LightStrip {
          * @param maxBrightness The maximum brightness of the NeoPixels, which is a value between 0 and 255.
          * @param minBrightness The minimum brightness of the NeoPixels, which is a value between 0 and 255.
          */
-        void blinkColor(Color c, uint64_t delayTime, uint8_t startLed, uint8_t endLed);
+        void blinkColor(simpleColor c, uint64_t delayTime, uint8_t startLed, uint8_t endLed);
         
         /**
          * Sets the color of the LEDs on the NeoPixel strip, and updates the strip with the new color.
@@ -138,7 +131,7 @@ class LightStrip {
          * @param startLed The index of the first LED to set the color for.
          * @param endLed The index of the last LED to set the color for.
          */
-        void setLEDs(Color c, uint8_t startLed, uint8_t endLed);
+        void setLEDs(simpleColor c, uint8_t startLed, uint8_t endLed);
        
        /**
          * @brief Blinks the NeoPixels on the strip in the specified color, with the specified delay time.
@@ -162,7 +155,7 @@ class LightStrip {
          * @param maxBrightness The maximum brightness of the NeoPixels, which is a value between 0 and 255.
          * @param minBrightness The minimum brightness of the NeoPixels, which is a value between 0 and 255.
          */
-        void breatheColor(Color c, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness = 254, uint8_t minBrightness = 0);
+        void breatheColor(simpleColor c, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness = 254, uint8_t minBrightness = 0);
 
         /**
          * @brief sets the color to 0 and thus turns the strip off
@@ -180,6 +173,14 @@ class LightStrip {
          * @return uint8_t the current brightness of the LEDs on the NeoPixel strip
         */
         uint8_t getStripBrightness();
+
+        
+        /**
+         * @brief Sets the brightness of the LEDs on the NeoPixel strip.
+         * 
+         * @param brightness The brightness to set the LEDs to, between 0 and 255.
+         */
+        void setStripBrightness(uint8_t brightness);
        
 };
 
