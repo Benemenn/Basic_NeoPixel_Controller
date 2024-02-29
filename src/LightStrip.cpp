@@ -153,7 +153,7 @@ void LightStrip::breatheColor(simpleColor c, uint8_t delayTime, uint8_t startLed
 
 
 uint8_t LightStrip::getStripLength(){
-    return this->stripLength;
+    return this->numPixels();
 } 
 
 uint8_t LightStrip::getStripBrightness(){
