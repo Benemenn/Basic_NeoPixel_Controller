@@ -1,8 +1,11 @@
-
 #include <Arduino.h>
 #include "LightStrip.h"
 
 LightStrip ledStrip(12, 14);
+
+Adafruit_NeoPixel neopixel(12, 14, NEO_GRB + NEO_KHZ800);
+
+
 
 long lastChange = 0;
 byte state = 0;
@@ -53,6 +56,8 @@ void loop() {
         state = 0;
         Serial.println("next state: " + String(state));
     }
+
+    ledStrip.turnStripOff();
     
 
 }

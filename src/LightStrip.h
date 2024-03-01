@@ -34,9 +34,6 @@ struct simpleColor{
 
 class LightStrip : Adafruit_NeoPixel{
     private:
-        //Adafruit_NeoPixel ledStrip;
-        uint8_t stripLength;
-        
 
         bool onState = false; 
         uint64_t lastChangeTime = 0; // needed for the non-blocking blinking function
@@ -65,6 +62,7 @@ class LightStrip : Adafruit_NeoPixel{
         void setAndShowColor(uint8_t red, uint8_t green, uint8_t blue);
 
     public:
+    
         LightStrip() = delete;
         
         /**

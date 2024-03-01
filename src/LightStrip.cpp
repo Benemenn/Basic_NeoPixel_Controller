@@ -17,12 +17,15 @@
 //BEGIN FILE
 //================================================================
 
+#ifndef ARDUINO_H
+#define ARDUINO_H
+#include <Arduino.h>
+#endif
 
 #include "LightStrip.h"
 
 LightStrip::LightStrip(uint16_t numPixels, uint16_t pin, neoPixelType type, uint8_t brightness) :
-    Adafruit_NeoPixel(numPixels, pin, type),
-    stripLength(numPixels)
+    Adafruit_NeoPixel(numPixels, pin, type)
     {
         this->setBrightness(brightness);
         this->begin();
@@ -42,20 +45,20 @@ bool LightStrip::initialisationShow(){
         switch(initState){
             case 0:
                 this->setBrightness(200);
-                this->setLEDs(254, 0, 0, 0, this->stripLength);
+                this->setLEDs(254, 0, 0, 0, this->getStripLength());
                 break;
             case 1:
                 this->setBrightness(200);
-                this->setLEDs(0, 254, 0, 0, this->stripLength);
+                this->setLEDs(0, 254, 0, 0, this->getStripLength());
                 break;
             case 2:
                 this->setBrightness(200);
-                this->setLEDs(0, 0, 254, 0, this->stripLength);
+                this->setLEDs(0, 0, 254, 0, this->getStripLength());
                 break;
 
             case 3: 
                 this->setBrightness(200);
-                this->setLEDs(245, 245, 245, 0, this->stripLength);
+                this->setLEDs(245, 245, 245, 0, this->getStripLength());
                 break;
             case 4:
                 this->turnStripOff();
@@ -79,7 +82,7 @@ void LightStrip::setAndShowColor(uint8_t red, uint8_t green, uint8_t blue, uint8
 }
 
 void LightStrip::setAndShowColor(uint8_t red, uint8_t green, uint8_t blue){
-    setAndShowColor(red, green, blue, 0, this->stripLength);
+    setAndShowColor(red, green, blue, 0, this->getStripLength());
 }
 
 void LightStrip::blinkColor(uint8_t red, uint8_t green, uint8_t blue, uint64_t delayTime, uint8_t startLed, uint8_t endLed){
@@ -118,7 +121,7 @@ void LightStrip::setLEDs(simpleColor c, uint8_t startLed, uint8_t endLed){
 }
 
 void LightStrip::turnStripOff(){
-    this->setAndShowColor(0, 0, 0, 0, this->stripLength);
+    this->clear();
 }
 
 void LightStrip::breatheColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t delayTime, uint8_t startLed, uint8_t endLed, uint8_t maxBrightness, uint8_t minBrightness){
