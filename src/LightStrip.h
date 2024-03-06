@@ -38,7 +38,7 @@ class LightStrip : Adafruit_NeoPixel{
         bool onState = false; 
         uint64_t lastChangeTime = 0; // needed for the non-blocking blinking function
         bool sendLEDCommands = false;
-        byte initState = false; // for initialization of the LED strip
+        byte initState = -1; // for initialization of the LED strip
 
         bool breatheDirection = false;
         /**

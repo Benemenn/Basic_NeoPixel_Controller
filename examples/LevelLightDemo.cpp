@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "LightStrip.h"
 
-LightStrip ledStrip(12, 14);
+LightStrip ledStrip(30, 14);
 
 Adafruit_NeoPixel neopixel(12, 14, NEO_GRB + NEO_KHZ800);
 
@@ -39,8 +39,11 @@ void loop() {
             ledStrip.blinkColor(50, 25, 172, 200, 5, 9);
             break;
         case 3:
-            simpleColor c(0, 0, 255);
-            ledStrip.blinkColor(c, 1000, 0, 1);
+            ledStrip.blinkColor(0,0,255, 1000, 0, 1);
+            break;
+
+        case 4:
+            ledStrip.breatheColor(0, 255, 0, 10, 0, ledStrip.getStripLength(), 200, 10);
             break;
     }
 
@@ -52,7 +55,7 @@ void loop() {
        Serial.println("next state: " + String(state));
     }
 
-    if(state >= maxState){
+    if(state > maxState){
         state = 0;
         Serial.println("next state: " + String(state));
     }
