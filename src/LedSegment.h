@@ -98,19 +98,19 @@ public:
     /// @brief appplies a static color to the segment
     /// @param color the color the segment should show
     /// @param brightness the brightness the segment should be on
-    void setStaticColor(uint32_t color, uint8_t brightness);
+    void setStaticColor(uint32_t color, uint8_t brightness=255);
     /// @brief sets the parameters so that the segment can blink, needs update() to be called cyclically after.
     /// @param color the color the segment should show
     /// @param brightness the brightness the segment should be on
     /// @param frequency the frequency of the blinking
     /// @param dutyCylce the duty cycle of the signal 
-    void setBlinking(uint32_t color, uint8_t frequency, uint8_t brightness, uint8_t dutyCylce);
+    void setBlinking(uint32_t color, uint8_t frequency, uint8_t brightness=255, uint8_t dutyCylce=50);
     /// @brief sets the parameters so that the segment can perform a breathing. needs update() to be called cyclically after.
     /// @param color the color the segment should show 
     /// @param frequency the frequency of the blinking 
     /// @param minBrightness the lowest brightness in the breathing display
     /// @param maxBrightness the highest brightness in the breathing display
-    void setBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness, uint8_t maxBrightness);
+    void setBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness=0, uint8_t maxBrightness=255);
     /// @brief needs to be called cyclically for the set...() functions to be applied to the segment. 
     void update();
 };
