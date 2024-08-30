@@ -51,7 +51,7 @@ uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
         uint8_t rPrime = uint8_t((float)r * fScaleFactor);
     #endif
         
-    return (bPrime << 16) | (gPrime << 8) | rPrime;
+    return (rPrime << 16) | (gPrime << 8) | bPrime;
     
 }
 
