@@ -19,21 +19,21 @@
 using namespace ArduinoStopwatch;
 
 
-enum LEDSEGMENT_MODE {
+enum class LEDSEGMENT_MODE {
     OFF = 0,
     STATIC,
     BLINKING,
     BREATHING
 };
 
-enum LED_BLINK_STATE{
+enum class LED_BLINK_STATE{
     OFF = 0,
     ON,
     BREATHE_IN,
     BREATHE_OUT
 };
 
-struct brightnessRange{
+struct BrightnessRange{
     uint8_t minBrightness = 0, maxBrightness = 255;
 };
 
@@ -49,7 +49,7 @@ public:
     uint16_t tOff;
     uint16_t breatheDelay;
     uint8_t breathingSteps;
-    brightnessRange brightnessRange;
+    BrightnessRange brightnessRange;
 
     /// @brief constructs a rectangle signal
     /// @param currentFrequency the frequency of the signal
