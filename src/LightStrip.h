@@ -13,176 +13,33 @@
  * 
  */
 
-//================================================================
-//BEGIN FILE
-//================================================================
-
+#pragma once
+#include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
+#include "LedSegment.h"
 
-struct simpleColor{
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-
-    simpleColor(uint8_t r, uint8_t g, uint8_t b){
-        red = r;
-        green = g;
-        blue = b;
-    }
-
+class LightStrip {
+private:
+    Adafruit_NeoPixel neopixels;
+    LedSegment* segmentList;
+    size_t segmentListCapacity;
+    size_t segmentListSize;
+public:       
+    /// @brief initializes the NeoPixel strip on the specified pin with the specified number of pixels and brightness
+    /// @param numPixels the number of NeoPixels in the strip
+    /// @param pin the pin on which the NeoPixels are connected
+    /// @param type the NeoPixel type, which determines the number of data lines and the order of the color bytes
+    LightStrip(uint16_t numPixels, uint16_t pin, neoPixelType type = NEO_GRB + NEO_KHZ800);
+    ~LightStrip();
+    void begin();
+    LedSegment& operator[](size_t index);
+    LedSegment& segment(size_t index);
+    bool addSegment(uint8_t length);
+    void update();
+    /// @brief make a little initialisation show, to check if all leds are connected and are working
+    void testShow();
+    void setAllOff();
+    void setAllStaticColor(uint32_t color, uint8_t brightness);
+    void setAllBlinking(uint32_t color, uint8_t frequency, uint8_t brightness, uint8_t dutyCylce);
+    void setAllBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness, uint8_t maxBrightness);     
 };
-
-class LightStrip : Adafruit_NeoPixel{
-    private:
-
-        bool onState = false; 
-        uint64_t lastChangeTime = 0; // needed for the non-blocking blinking function
-        bool sendLEDCommands = false;
-        byte initState = -1; // for initialization of the LED strip
-
-        bool breatheDirection = false;
-        /**
-         * Sets the color of the LEDs on the NeoPixel strip, and updates the strip with the new color.
-         * 
-         * @param red The amount of red to set for each LED, between 0 and 255.
-         * @param green The amount of green to set for each LED, between 0 and 255.
-         * @param blue The amount of blue to set for each LED, between 0 and 255.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         */
-        
-        void setAndShowColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t startLed, uint8_t endLed);
-        /**
-         * Sets the color of the LEDs on the NeoPixel strip, and updates the strip with the new color.
-         * 
-         * @param red The amount of red to set for each LED, between 0 and 255.
-         * @param green The amount of green to set for each LED, between 0 and 255.
-         * @param blue The amount of blue to set for each LED, between 0 and 255.
-         */
-        void setAndShowColor(uint8_t red, uint8_t green, uint8_t blue);
-
-    public:
-    
-        LightStrip() = delete;
-        
-        /**
-         * @brief initializes the NeoPixel strip on the specified pin with the specified number of pixels and brightness
-         * 
-         * @param numPixels the number of NeoPixels in the strip
-         * @param pin the pin on which the NeoPixels are connected
-         * @param type the NeoPixel type, which determines the number of data lines and the order of the color bytes
-         * @param brightness the brightness of the NeoPixels, which is a value between 0 and 255
-         */
-        LightStrip(uint16_t numPixels, uint16_t pin, neoPixelType type = NEO_GRB + NEO_KHZ800, uint8_t brightness = 254);
-
-        
-        /**
-         * @brief make a little initialisation show, to check if all leds are connected and are working
-         * 
-         * @param numPixels the number of NeoPixels in the strip
-         * @param pin the pin on which the NeoPixels are connected
-         * @param type the NeoPixel type, which determines the number of data lines and the order of the color bytes
-         * @param brightness the brightness of the NeoPixels, which is a value between 0 and 255
-         */
-        bool initialisationShow();
-     
-        /**
-         * Blinks the NeoPixels on the strip in the specified color, with the specified delay time.
-         * 
-         * @param c The color to set the NeoPixels to.
-         * @param delayTime The delay time in milliseconds between each LED being turned on or off.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         * @param maxBrightness The maximum brightness of the NeoPixels, which is a value between 0 and 255.
-         * @param minBrightness The minimum brightness of the NeoPixels, which is a value between 0 and 255.
-         */
-        void blinkColor(uint8_t red, uint8_t green, uint8_t blue, uint64_t delayTime, uint8_t startLed, uint8_t endLed);
-        
-        
-        /**
-         * Blinks the NeoPixels on the strip in the specified color, with the specified delay time.
-         * 
-         * @param c The color to set the NeoPixels to.
-         * @param delayTime The delay time in milliseconds between each LED being turned on or off.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         * @param maxBrightness The maximum brightness of the NeoPixels, which is a value between 0 and 255.
-         * @param minBrightness The minimum brightness of the NeoPixels, which is a value between 0 and 255.
-         */
-        void blinkColor(simpleColor c, uint64_t delayTime, uint8_t startLed, uint8_t endLed);
-        
-        /**
-         * Sets the color of the LEDs on the NeoPixel strip, and updates the strip with the new color.
-         * 
-         * @param red The amount of red to set for each LED, between 0 and 255.
-         * @param green The amount of green to set for each LED, between 0 and 255.
-         * @param blue The amount of blue to set for each LED, between 0 and 255.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         */
-        void setLEDs(uint8_t red, uint8_t green, uint8_t blue, uint8_t startLed, uint8_t endLed);
-        
-        /**
-         * Sets the color of the LEDs on the NeoPixel strip, and updates the strip with the new color.
-         * 
-         * @param c The color to set the LEDs to.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         */
-        void setLEDs(simpleColor c, uint8_t startLed, uint8_t endLed);
-       
-       /**
-         * @brief Blinks the NeoPixels on the strip in the specified color, with the specified delay time.
-         * 
-         * @param c The color to set the NeoPixels to.
-         * @param delayTime The delay time in milliseconds between each LED being turned on or off.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         * @param maxBrightness The maximum brightness of the NeoPixels, which is a value between 0 and 255.
-         * @param minBrightness The minimum brightness of the NeoPixels, which is a value between 0 and 255.
-         */
-       void breatheColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness = 254, uint8_t minBrightness = 0);
-        
-        /**
-         * @brief Blinks the NeoPixels on the strip in the specified color, with the specified delay time.
-         * 
-         * @param c The color to set the NeoPixels to.
-         * @param delayTime The delay time in milliseconds between each LED being turned on or off.
-         * @param startLed The index of the first LED to set the color for.
-         * @param endLed The index of the last LED to set the color for.
-         * @param maxBrightness The maximum brightness of the NeoPixels, which is a value between 0 and 255.
-         * @param minBrightness The minimum brightness of the NeoPixels, which is a value between 0 and 255.
-         */
-        void breatheColor(simpleColor c, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness = 254, uint8_t minBrightness = 0);
-
-        /**
-         * @brief sets the color to 0 and thus turns the strip off
-        */
-        void turnStripOff();
-
-        
-        /**
-         * @return the number of pixels in the strip
-        */
-        uint8_t getStripLength();
-
-        /**
-         * @brief return the current brightness of the LEDs on the NeoPixel strip
-         * @return uint8_t the current brightness of the LEDs on the NeoPixel strip
-        */
-        uint8_t getStripBrightness();
-
-        
-        /**
-         * @brief Sets the brightness of the LEDs on the NeoPixel strip.
-         * 
-         * @param brightness The brightness to set the LEDs to, between 0 and 255.
-         */
-        void setStripBrightness(uint8_t brightness);
-       
-};
-
-
-//================================================================
-//END OF FILE
-//================================================================
