@@ -13,9 +13,6 @@ RectangleSignal::RectangleSignal(uint16_t currentPeriod_ms, uint8_t currentDutyC
 void RectangleSignal::updateSignalParametersForBlinking(){
     this->tOff = (uint32_t)this->currentPeriod_ms * (100 - this->currentDutyCycle) / 100;
     this->tOn  = (uint32_t)this->currentPeriod_ms * currentDutyCycle / 100;
-
-    Serial.print("toff:");
-    Serial.println(this->tOff);
 }
 
 void RectangleSignal::updateSignalParametersForBreathing(){
@@ -154,9 +151,10 @@ void LedSegment::update(){
                     else{
                         ++currentBrightness;
                     }
-
-                    currentColor = calcRGBWithBrightness(currentColor, currentBrightness);
-                    neopixelsPtr->fill(this->currentColor, this->startLed, this->length);
+                    
+                    uint32_t tempColor = calcRGBWithBrightness(currentColor, currentBrightness);
+                    
+                    neopixelsPtr->fill(tempColor, this->startLed, this->length);
                     xEntrySM = true; //restart timer for breathing effect
                 }
             break;
@@ -174,8 +172,8 @@ void LedSegment::update(){
                         --currentBrightness;
                     }
 
-                    currentColor = calcRGBWithBrightness(currentColor, currentBrightness);
-                    neopixelsPtr->fill(currentColor, startLed, length);
+                    uint32_t tempColor = calcRGBWithBrightness(currentColor, currentBrightness);
+                    neopixelsPtr->fill(tempColor, startLed, length);
 
                     xEntrySM = true; //restart timer for breathing effect
                 }
