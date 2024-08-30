@@ -25,17 +25,19 @@ void setup() {
     ledStrip.createSegment(7, 11);  // 7 - 10
     ledStrip.createSegment(10, 13);  // 10 - 12
 
-    ledStrip[0].setBlinking(COLOR_RED, 2);
-    ledStrip[1].setBlinking(COLOR_GREEN, 5);
-    ledStrip[2].setBlinking(COLOR_BLUE, 1, 255, 20);
-    ledStrip[3].setBlinking(COLOR_WHITE, 20, 50);
-
     // Test show:
     Serial.print("Testing leds...");
     ledStrip.testShow();
     Serial.println("done!");
 
+    ledStrip[0].setBlinking(COLOR_RED, 2);
+    ledStrip[1].setBlinking(COLOR_GREEN, 5);
+    ledStrip[2].setBlinking(COLOR_BLUE, 1, 255, 20);
+    ledStrip[3].setBlinking(COLOR_WHITE, 20, 50);
+
+
     Serial.println("Setup done!");
+    delay(5000);
 }
 
 void loop() {
