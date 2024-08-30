@@ -36,7 +36,7 @@ bool LightStrip::createSegment(uint16_t startLed, uint16_t length) {
     return true;
 }
 void LightStrip::update() {
-    for(size_t i; i < segmentListSize; i++) {
+    for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].update();
     }
     neopixels.show();

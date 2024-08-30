@@ -11,8 +11,11 @@ RectangleSignal::RectangleSignal(uint8_t currentFrequency, uint8_t currentDutyCy
     this->updateSignalParametersForBreathing();
 }
 void RectangleSignal::updateSignalParametersForBlinking(){
-    this->tOff = (uint16_t)(1/this->currentFrequency) * (1 - this->currentDutyCycle/100);
-    this->tOn = (uint16_t)(currentDutyCycle/100) * (uint16_t)(1/currentFrequency);
+    this->tOff = (uint32_t)(1000/this->currentFrequency) * (100 - this->currentDutyCycle)/100;
+    this->tOn = (uint32_t)(currentDutyCycle/100) * (uint16_t)(1000/currentFrequency);
+
+    Serial.print("toff:");
+    Serial.println(this->tOff);
 }
 
 void RectangleSignal::updateSignalParametersForBreathing(){

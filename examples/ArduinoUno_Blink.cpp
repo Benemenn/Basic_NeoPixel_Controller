@@ -33,7 +33,7 @@ void setup() {
     ledStrip[0].setBlinking(COLOR_RED, 2);
     ledStrip[1].setBlinking(COLOR_GREEN, 5);
     ledStrip[2].setBlinking(COLOR_BLUE, 1, 255, 20);
-    ledStrip[3].setBlinking(COLOR_WHITE, 20, 50);
+    ledStrip[3].setBlinking(COLOR_WHITE, 1, 50);
 
 
     Serial.println("Setup done!");
