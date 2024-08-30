@@ -42,14 +42,14 @@ void LightStrip::update() {
     neopixels.show();
 }
 void LightStrip::testShow() {
-    const uint16_t TEST_COLOR_DELAY_MS = 700;
+    const uint16_t TEST_COLOR_DELAY_MS = 400;
     const uint8_t BRIGHTNESS    = 255;
     const uint32_t COLOR_RED    = 0x00FF0000;
     const uint32_t COLOR_GREEN  = 0x0000FF00;
     const uint32_t COLOR_BLUE   = 0x000000FF;
     const uint32_t COLOR_WHITE  = 0x00FFFFFF;
     
-    for(size_t i; i < segmentListSize; i++) {
+    for(size_t i = 0; i < segmentListSize; i++) {
         segment(i).setStaticColor(COLOR_RED, BRIGHTNESS);
         this->update();
         delay(TEST_COLOR_DELAY_MS);
@@ -65,6 +65,8 @@ void LightStrip::testShow() {
         segment(i).setOff();
         this->update();
         delay(TEST_COLOR_DELAY_MS);
+
+        Serial.println("ich bin dafür");
     }
 
     this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
