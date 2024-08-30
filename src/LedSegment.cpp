@@ -36,9 +36,9 @@ uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
 
     #if defined(__AVR__)
 
-        uint8_t rPrime = (r * brightness) >> 8;
-        uint8_t gPrime = (g * brightness) >> 8;
-        uint8_t bPrime = (b * brightness) >> 8;
+        uint8_t rPrime = ((uint16_t)r * (uint16_t)brightness) >> 8;
+        uint8_t gPrime = ((uint16_t)g * (uint16_t)brightness) >> 8;
+        uint8_t bPrime = ((uint16_t)b * (uint16_t)brightness) >> 8;
 
     #else
         // Source: https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
@@ -51,7 +51,7 @@ uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
         uint8_t rPrime = uint8_t((float)r * fScaleFactor);
     #endif
         
-    return (rPrime << 16) | (gPrime << 8) | bPrime;
+    return ((uint32_t)rPrime << 16) | ((uint32_t)gPrime << 8) | (uint32_t)bPrime;
     
 }
 
