@@ -92,13 +92,13 @@ void LightStrip::setAllStaticColor(uint32_t color, uint8_t brightness) {
         segmentList[i].setStaticColor(color, brightness);
     }
 }
-void LightStrip::setAllBlinking(uint32_t color, uint8_t frequency, uint8_t brightness, uint8_t dutyCylce) {
+void LightStrip::setAllBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness, uint8_t dutyCylce) {
     for(size_t i; i < segmentListSize; i++) {
-        segmentList[i].setBlinking(color, frequency, brightness, dutyCylce);
+        segmentList[i].setBlinking(color, period_ms, brightness, dutyCylce);
     }
 }
-void LightStrip::setAllBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness, uint8_t maxBrightness) {
+void LightStrip::setAllBreathing(uint32_t color, uint16_t period_ms, uint8_t minBrightness, uint8_t maxBrightness) {
     for(size_t i; i < segmentListSize; i++) {
-        segmentList[i].setBreathing(color, frequency, minBrightness, maxBrightness);
+        segmentList[i].setBreathing(color, period_ms, minBrightness, maxBrightness);
     }
 }    

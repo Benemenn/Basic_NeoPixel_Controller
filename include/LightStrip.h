@@ -48,14 +48,14 @@ public:
     void setAllStaticColor(uint32_t color, uint8_t brightness=255);
     /// @brief sets all segments to blinking
     /// @param color the color of the leds
-    /// @param frequency the blinking frequency
+    /// @param period_ms the blinking period
     /// @param brightness the brightness of the leds
     /// @param dutyCylce the blink dutycycle (relation ON to OFF)
-    void setAllBlinking(uint32_t color, uint8_t frequency, uint8_t brightness=255, uint8_t dutyCylce=127);
+    void setAllBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness=255, uint8_t dutyCylce=127);
     /// @brief sets all segments to breathing
     /// @param color the color of the leds
-    /// @param frequency the breathing frequency
+    /// @param period_ms the breathing period
     /// @param minBrightness the minimum brightness of the leds
     /// @param maxBrightness the maximum brightness of the leds
-    void setAllBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness=0, uint8_t maxBrightness=255);     
+    void setAllBreathing(uint32_t color, uint16_t period_ms, uint8_t minBrightness=0, uint8_t maxBrightness=255);     
 };

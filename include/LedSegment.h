@@ -43,7 +43,7 @@ struct BrightnessRange{
 /// in one place. The class also provides the necessary functions to update these parameters in an automated way
 class RectangleSignal{
 public:
-    uint8_t currentFrequency = 1;
+    uint16_t currentPeriod_ms = 1000;
     uint8_t currentDutyCycle = 50;
     uint16_t tOn;
     uint16_t tOff;
@@ -52,9 +52,9 @@ public:
     BrightnessRange brightnessRange;
 
     /// @brief constructs a rectangle signal
-    /// @param currentFrequency the frequency of the signal
+    /// @param currentPeriod_ms the period of the signal
     /// @param currentDutyCycle the duty cycle of the signal
-    RectangleSignal(uint8_t currentFrequency = 1, uint8_t currentDutyCycle = 50);
+    RectangleSignal(uint16_t currentPeriod_ms = 1000, uint8_t currentDutyCycle = 50);
     /// @brief update the parameters for the blinking action
     void updateSignalParametersForBlinking();
     /// @brief updates the parameters for the blinking action
@@ -101,16 +101,16 @@ public:
     void setStaticColor(uint32_t color, uint8_t brightness=255);
     /// @brief sets the parameters so that the segment can blink, needs update() to be called cyclically after.
     /// @param color the color the segment should show
+    /// @param period_ms the blinking period
     /// @param brightness the brightness the segment should be on
-    /// @param frequency the frequency of the blinking
     /// @param dutyCylce the duty cycle of the signal, ranges from 0 to 100%
-    void setBlinking(uint32_t color, uint8_t frequency, uint8_t brightness=255, uint8_t dutyCylce=50);
+    void setBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness=255, uint8_t dutyCylce=50);
     /// @brief sets the parameters so that the segment can perform a breathing. needs update() to be called cyclically after.
     /// @param color the color the segment should show 
-    /// @param frequency the frequency of the blinking 
+    /// @param period_ms the breathing period
     /// @param minBrightness the lowest brightness in the breathing display
     /// @param maxBrightness the highest brightness in the breathing display
-    void setBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness=0, uint8_t maxBrightness=255);
+    void setBreathing(uint32_t color, uint16_t period_ms, uint8_t minBrightness=0, uint8_t maxBrightness=255);
     /// @brief needs to be called cyclically for the set...() functions to be applied to the segment. 
     void update();
 };

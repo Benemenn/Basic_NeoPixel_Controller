@@ -2,17 +2,17 @@
 #include "LedSegment.h"
 
 
-RectangleSignal::RectangleSignal(uint8_t currentFrequency, uint8_t currentDutyCycle){
+RectangleSignal::RectangleSignal(uint16_t currentPeriod_ms, uint8_t currentDutyCycle){
     this->currentDutyCycle = constrain(currentDutyCycle, 0, 100);
-    this->currentFrequency = currentFrequency;
+    this->currentPeriod_ms = currentPeriod_ms;
     this->brightnessRange.minBrightness = 0;
     this->brightnessRange.maxBrightness = 255;
     this->updateSignalParametersForBlinking();
     this->updateSignalParametersForBreathing();
 }
 void RectangleSignal::updateSignalParametersForBlinking(){
-    this->tOff = (uint32_t)(1000/this->currentFrequency) * (100 - this->currentDutyCycle)/100;
-    this->tOn = (uint32_t)(currentDutyCycle/100) * (uint16_t)(1000/currentFrequency);
+    this->tOff = (uint32_t)this->currentPeriod_ms * (100 - this->currentDutyCycle) / 100;
+    this->tOn  = (uint32_t)this->currentPeriod_ms * currentDutyCycle / 100;
 
     Serial.print("toff:");
     Serial.println(this->tOff);
@@ -20,7 +20,7 @@ void RectangleSignal::updateSignalParametersForBlinking(){
 
 void RectangleSignal::updateSignalParametersForBreathing(){
     this->breathingSteps = this->brightnessRange.maxBrightness - this->brightnessRange.minBrightness;
-    this->breatheDelay = uint16_t((1/this->currentFrequency) / this->breathingSteps);
+    this->breatheDelay = this->currentPeriod_ms / this->breathingSteps;
 }
 
 LedSegment::LedSegment(Adafruit_NeoPixel* neopixels, uint16_t startLed, uint16_t length){
@@ -68,12 +68,12 @@ void LedSegment::setStaticColor(uint32_t color, uint8_t brightness){
     this->currentColor = this->calcRGBWithBrightness(color, this->currentBrightness);
 }
 
-void LedSegment::setBlinking(uint32_t color, uint8_t frequency, uint8_t brightness, uint8_t dutyCylce){
+void LedSegment::setBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness, uint8_t dutyCylce){
     this->currentMode = LEDSEGMENT_MODE::BLINKING;
     this->currentBlinkState = LED_BLINK_STATE::OFF;
     this->currentBrightness = brightness;
     this->currentColor = this->calcRGBWithBrightness(color, this->currentBrightness);
-    this->_rectangleSignal.currentFrequency = frequency;
+    this->_rectangleSignal.currentPeriod_ms = period_ms;
     this->_rectangleSignal.currentDutyCycle = constrain(dutyCylce, 0, 100);
 
     this->_rectangleSignal.updateSignalParametersForBlinking();
@@ -81,13 +81,13 @@ void LedSegment::setBlinking(uint32_t color, uint8_t frequency, uint8_t brightne
     xEntrySM = true;
 }
 
-void LedSegment::setBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness, uint8_t maxBrightness){
+void LedSegment::setBreathing(uint32_t color, uint16_t period_ms, uint8_t minBrightness, uint8_t maxBrightness){
     this->currentMode = LEDSEGMENT_MODE::BREATHING;
     this->currentBlinkState = LED_BLINK_STATE::BREATHE_IN;
     this->_rectangleSignal.brightnessRange.minBrightness = minBrightness;
     this->_rectangleSignal.brightnessRange.maxBrightness = maxBrightness;
     this->currentBrightness = this->_rectangleSignal.brightnessRange.minBrightness; //start at low brightness breathing!
-    this->_rectangleSignal.currentFrequency = frequency;
+    this->_rectangleSignal.currentPeriod_ms = period_ms;
     this->currentColor = this->calcRGBWithBrightness(color, this->currentBrightness);
     this->_rectangleSignal.updateSignalParametersForBreathing();
 
