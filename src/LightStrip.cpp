@@ -51,25 +51,36 @@ void LightStrip::testShow() {
     
     for(size_t i; i < segmentListSize; i++) {
         segment(i).setStaticColor(COLOR_RED, BRIGHTNESS);
+        segment(i).update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setStaticColor(COLOR_GREEN, BRIGHTNESS);
+        segment(i).update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setStaticColor(COLOR_BLUE, BRIGHTNESS);
+        segment(i).update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setStaticColor(COLOR_WHITE, BRIGHTNESS);
+        segment(i).update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setOff();
+        segment(i).update();
+        delay(TEST_COLOR_DELAY_MS);
     }
 
     this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
+    this->update();
     delay(TEST_COLOR_DELAY_MS);
     this->setAllStaticColor(COLOR_GREEN, BRIGHTNESS);
+    this->update();
     delay(TEST_COLOR_DELAY_MS);
     this->setAllStaticColor(COLOR_BLUE, BRIGHTNESS);
+    this->update();
     delay(TEST_COLOR_DELAY_MS);
     this->setAllStaticColor(COLOR_WHITE, BRIGHTNESS);
+    this->update();
     delay(TEST_COLOR_DELAY_MS);
     this->setAllOff();
+    this->update();
 }
 void LightStrip::setAllOff() {
     for(size_t i; i < segmentListSize; i++) {
