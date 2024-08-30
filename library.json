@@ -1,0 +1,25 @@
+{
+    "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+    "name": "BasicNeopixelController",
+    "version": "1.0.0",
+    "description": "A PlatformIO library to control Neopixels. Based on the 'Adafruit Neopixel Library'.",
+    "keywords" : "neopixel,arduino",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Benemenn/Basic_NeoPixel_Controller.git"
+    },
+    "authors": [ {
+      "name": "Ben Cloos",
+      "maintainer": true
+    },{
+        "name": "Johannes Schramm"
+    }],
+    "license": "MIT",
+    "frameworks": "arduino",
+    "platforms": "*",
+    "headers": "LightStrip.h",
+    "dependencies": {
+        "adafruit/Adafruit NeoPixel": "^1.12.0",
+	    "johannesschramm/ArduinoStopwatch": "^1.0.2"
+    }
+  }

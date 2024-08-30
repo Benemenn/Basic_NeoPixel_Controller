@@ -6,10 +6,5 @@
 /lib
 /.vscode
 
-# Build files
-/build
-/test
-/include
-
 # Miscellaneous
 .DS_Store
