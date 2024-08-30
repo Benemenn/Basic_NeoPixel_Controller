@@ -51,19 +51,19 @@ void LightStrip::testShow() {
     
     for(size_t i; i < segmentListSize; i++) {
         segment(i).setStaticColor(COLOR_RED, BRIGHTNESS);
-        segment(i).update();
+        this->update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setStaticColor(COLOR_GREEN, BRIGHTNESS);
-        segment(i).update();
+        this->update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setStaticColor(COLOR_BLUE, BRIGHTNESS);
-        segment(i).update();
+        this->update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setStaticColor(COLOR_WHITE, BRIGHTNESS);
-        segment(i).update();
+        this->update();
         delay(TEST_COLOR_DELAY_MS);
         segment(i).setOff();
-        segment(i).update();
+        this->update();
         delay(TEST_COLOR_DELAY_MS);
     }
 
