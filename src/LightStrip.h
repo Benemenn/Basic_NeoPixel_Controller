@@ -1,23 +1,11 @@
-/**
- * @file LightStrip.h
- * @author Ben Cloos <<b.cloos@icloud.com>>
- * @brief A class for controlling an Adafruit NeoPixel LED strip.
- * 
- * This class provides methods for controlling an Adafruit NeoPixel LED strip, including setting the color of individual LEDs,
- * blinking the entire strip, and more.
- * 
- * @version 0.2
- * @date 2024-02-29
- * 
- * @copyright Copyright (c) 2024 Ben Cloos.
- * 
- */
-
 #pragma once
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include "LedSegment.h"
 
+/// @brief This class controls a segmented NeoPixel LED strip.
+/// This class provides methods for controlling an Adafruit NeoPixel LED strip, including setting the color,
+/// blinking and breathing of LED segments, or the entire strip, and more.
 class LightStrip {
 private:
     Adafruit_NeoPixel neopixels;

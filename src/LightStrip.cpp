@@ -1,17 +1,3 @@
-/**
- * @file LightStrip.cpp
- * @author Ben Cloos <<b.cloos@icloud.com>>
- * @brief A class for controlling an Adafruit NeoPixel LED strip.
- * 
- * This class provides methods for controlling an Adafruit NeoPixel LED strip, including setting the color of individual LEDs,
- * blinking the entire strip, and more.
- * 
- * @version 0.2
- * @date 2024-02-29
- * 
- * @copyright Copyright (c) 2024 Ben Cloos.
- * 
- */
 #include "LightStrip.h"
 
 LightStrip::LightStrip(uint16_t numPixels, uint16_t pin, size_t maxSegments, neoPixelType type) :
