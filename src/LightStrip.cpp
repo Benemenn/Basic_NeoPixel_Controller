@@ -49,6 +49,18 @@ void LightStrip::testShow() {
     const uint32_t COLOR_BLUE   = 0x000000FF;
     const uint32_t COLOR_WHITE  = 0x00FFFFFF;
 
+    for(size_t i; i < segmentListSize; i++) {
+        segment(i).setStaticColor(COLOR_RED, BRIGHTNESS);
+        delay(TEST_COLOR_DELAY_MS);
+        segment(i).setStaticColor(COLOR_GREEN, BRIGHTNESS);
+        delay(TEST_COLOR_DELAY_MS);
+        segment(i).setStaticColor(COLOR_BLUE, BRIGHTNESS);
+        delay(TEST_COLOR_DELAY_MS);
+        segment(i).setStaticColor(COLOR_WHITE, BRIGHTNESS);
+        delay(TEST_COLOR_DELAY_MS);
+        segment(i).setOff();
+    }
+
     this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
     delay(TEST_COLOR_DELAY_MS);
     this->setAllStaticColor(COLOR_GREEN, BRIGHTNESS);
