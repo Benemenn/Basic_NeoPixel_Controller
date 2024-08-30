@@ -12,157 +12,84 @@
  * @copyright Copyright (c) 2024 Ben Cloos.
  * 
  */
-
-//================================================================
-//BEGIN FILE
-//================================================================
-
-#ifndef ARDUINO_H
-#define ARDUINO_H
-#include <Arduino.h>
-#endif
-
 #include "LightStrip.h"
 
-LightStrip::LightStrip(uint16_t numPixels, uint16_t pin, neoPixelType type, uint8_t brightness) :
-    Adafruit_NeoPixel(numPixels, pin, type)
-    {
-        this->setBrightness(brightness);
-        this->begin();
-    }
-
-bool LightStrip::initialisationShow(){
-    uint16_t showColorDelay = 700;
-    bool done = false;
-
-    if (millis() - this->lastChangeTime >= showColorDelay){
-        this->initState++;
-        this->lastChangeTime = millis();
-        this->sendLEDCommands = true;
-    }
-
-    if(this->sendLEDCommands){
-        switch(initState){
-            case 0:
-                this->setBrightness(200);
-                this->setLEDs(254, 0, 0, 0, this->getStripLength());
-                break;
-            case 1:
-                this->setBrightness(200);
-                this->setLEDs(0, 254, 0, 0, this->getStripLength());
-                break;
-            case 2:
-                this->setBrightness(200);
-                this->setLEDs(0, 0, 254, 0, this->getStripLength());
-                break;
-
-            case 3: 
-                this->setBrightness(200);
-                this->setLEDs(245, 245, 245, 0, this->getStripLength());
-                break;
-            case 4:
-                this->turnStripOff();
-                done = true;
-                break;
-        }
-
-        this->sendLEDCommands = false;
-    }
-
-    return done;
-}
-
-
-
-void LightStrip::setAndShowColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t startLed, uint8_t endLed){
-    for(auto i = startLed; i < endLed; ++i){
-        this->setPixelColor(i, red, green, blue);
-    }
-    this->show();
-}
-
-void LightStrip::setAndShowColor(uint8_t red, uint8_t green, uint8_t blue){
-    setAndShowColor(red, green, blue, 0, this->getStripLength());
-}
-
-void LightStrip::blinkColor(uint8_t red, uint8_t green, uint8_t blue, uint64_t delayTime, uint8_t startLed, uint8_t endLed){
-    
-    if (millis() - this->lastChangeTime >= delayTime)
-    {
-        this->onState = !this->onState;
-        this->lastChangeTime = millis();
-        this->sendLEDCommands = true;
-    }
-    
-    if(this->sendLEDCommands){
-        switch (onState){
-            case 1:
-                this->setAndShowColor(red, green, blue, startLed, endLed);
-                break;
-            case 0:
-                this->setAndShowColor(0, 0, 0, startLed, endLed);
-                break;
-        }
-
-        this->sendLEDCommands = false;
+LightStrip::LightStrip(uint16_t numPixels, uint16_t pin, size_t maxSegments, neoPixelType type) :
+    neopixels(numPixels, pin, type),
+    segmentList(nullptr),
+    segmentListCapacity(maxSegments),
+    segmentListSize(0)
+{
+    segmentList = (LedSegment*)malloc(segmentListCapacity * sizeof(LedSegment));
+    if(segmentList == nullptr) {
+        segmentListCapacity = 0;
     }
 }
-
-void LightStrip::blinkColor(simpleColor c, uint64_t delayTime, uint8_t startLed, uint8_t endLed){
-    this->blinkColor(c.red, c.green, c.blue, delayTime, startLed, endLed);
+LightStrip::~LightStrip() {
+    free(segmentList);
 }
-
-void LightStrip::setLEDs(uint8_t red, uint8_t green, uint8_t blue, uint8_t startLed, uint8_t endLed){
-    this->setAndShowColor(red, green, blue, startLed, endLed);
+void LightStrip::begin() {
+    neopixels.begin();
+    neopixels.show();
 }
-
-void LightStrip::setLEDs(simpleColor c, uint8_t startLed, uint8_t endLed){
-    this->setAndShowColor(c.red, c.green, c.blue, startLed, endLed);
+LedSegment& LightStrip::operator[](size_t index) {
+    return segment(index);
 }
-
-void LightStrip::turnStripOff(){
-    this->clear();
+LedSegment& LightStrip::segment(size_t index) {
+    if(index >= segmentListSize) {
+        return segmentList[0];
+    }
+    return segmentList[index];
 }
+bool LightStrip::createSegment(uint16_t startLed, uint16_t length) {
+    if(segmentListSize >= segmentListCapacity) {
+        return false;
+    }
+    segmentList[segmentListSize] = LedSegment(&neopixels, startLed, length);
+    segmentListSize++;
+    return true;
+}
+void LightStrip::update() {
+    for(size_t i; i < segmentListSize; i++) {
+        segmentList[i].update();
+    }
+    neopixels.show();
+}
+void LightStrip::testShow() {
+    const uint16_t TEST_COLOR_DELAY_MS = 700;
+    const uint8_t BRIGHTNESS    = 255;
+    const uint32_t COLOR_RED    = 0x00FF0000;
+    const uint32_t COLOR_GREEN  = 0x0000FF00;
+    const uint32_t COLOR_BLUE   = 0x000000FF;
+    const uint32_t COLOR_WHITE  = 0x00FFFFFF;
 
-void LightStrip::breatheColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t delayTime, uint8_t startLed, uint8_t endLed, uint8_t maxBrightness, uint8_t minBrightness){
-    if(millis() - this->lastChangeTime >= delayTime){
-        lastChangeTime = millis();
-
-        uint8_t currentBrightness = this->getBrightness();
-        
-        switch(breatheDirection){
-            case 0:
-                this->setBrightness(++currentBrightness);
-                this->setLEDs(red, green, blue, startLed, endLed);
-                break;
-            case 1:
-                this->setBrightness(--currentBrightness);
-                this->setLEDs(red, green, blue, startLed, endLed);
-                break;
-        }
-
-        if(this->getBrightness() >= maxBrightness){
-            breatheDirection  = 1;
-        }
-        else if(this->getBrightness() <= minBrightness){
-            breatheDirection = 0;
-        }
+    this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
+    delay(TEST_COLOR_DELAY_MS);
+    this->setAllStaticColor(COLOR_GREEN, BRIGHTNESS);
+    delay(TEST_COLOR_DELAY_MS);
+    this->setAllStaticColor(COLOR_BLUE, BRIGHTNESS);
+    delay(TEST_COLOR_DELAY_MS);
+    this->setAllStaticColor(COLOR_WHITE, BRIGHTNESS);
+    delay(TEST_COLOR_DELAY_MS);
+    this->setAllOff();
+}
+void LightStrip::setAllOff() {
+    for(size_t i; i < segmentListSize; i++) {
+        segmentList[i].setOff();
     }
 }
-
-void LightStrip::breatheColor(simpleColor c, uint8_t delayTime, uint8_t startLed, uint8_t endLed,  uint8_t maxBrightness, uint8_t minBrightness){
-    this->breatheColor(c.red, c.green, c.blue, delayTime, startLed, endLed, maxBrightness, minBrightness);
+void LightStrip::setAllStaticColor(uint32_t color, uint8_t brightness) {
+    for(size_t i; i < segmentListSize; i++) {
+        segmentList[i].setStaticColor(color, brightness);
+    }
 }
-
-
-uint8_t LightStrip::getStripLength(){
-    return this->numPixels();
-} 
-
-uint8_t LightStrip::getStripBrightness(){
-    return this->getBrightness();
+void LightStrip::setAllBlinking(uint32_t color, uint8_t frequency, uint8_t brightness, uint8_t dutyCylce) {
+    for(size_t i; i < segmentListSize; i++) {
+        segmentList[i].setBlinking(color, frequency, brightness, dutyCylce);
+    }
 }
-
-void LightStrip::setStripBrightness(uint8_t brightness){
-    this->setBrightness(brightness);
-} 
+void LightStrip::setAllBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness, uint8_t maxBrightness) {
+    for(size_t i; i < segmentListSize; i++) {
+        segmentList[i].setBreathing(color, frequency, minBrightness, maxBrightness);
+    }
+}    

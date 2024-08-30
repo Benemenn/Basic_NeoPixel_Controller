@@ -25,21 +25,49 @@ private:
     size_t segmentListCapacity;
     size_t segmentListSize;
 public:       
-    /// @brief initializes the NeoPixel strip on the specified pin with the specified number of pixels and brightness
+    /// @brief constructs the strip of neopixels
     /// @param numPixels the number of NeoPixels in the strip
     /// @param pin the pin on which the NeoPixels are connected
+    /// @param maxSegments the maximum number of led segments
     /// @param type the NeoPixel type, which determines the number of data lines and the order of the color bytes
-    LightStrip(uint16_t numPixels, uint16_t pin, neoPixelType type = NEO_GRB + NEO_KHZ800);
+    LightStrip(uint16_t numPixels, uint16_t pin, size_t maxSegments, neoPixelType type = NEO_GRB + NEO_KHZ800);
+    /// @brief deconstructs the strip of neopixels
     ~LightStrip();
+    /// @brief sets the pin as an output and all leds off
     void begin();
+    /// @brief overloads the [] operator to access a specific led segment
+    /// @param index the index of a led segment
+    /// @return a reference to a led segment
     LedSegment& operator[](size_t index);
+    /// @brief access a specific led segment
+    /// @param index the index of a led segment
+    /// @return a reference to a led segment
     LedSegment& segment(size_t index);
-    bool addSegment(uint8_t length);
+    /// @brief create a new led segment
+    /// @param startLed the first led of the segment
+    /// @param length the number of leds in the segment
+    /// @return if the segment was successfully created
+    bool createSegment(uint16_t startLed, uint16_t length);
+    /// @brief update the state and colors of the leds
     void update();
-    /// @brief make a little initialisation show, to check if all leds are connected and are working
+    /// @brief blocking function which makes a little test show, to check if all leds are connected and are working
     void testShow();
+    /// @brief sets all segments off
     void setAllOff();
+    /// @brief sets all segments a static color
+    /// @param color the color of the leds
+    /// @param brightness the brightness of the leds
     void setAllStaticColor(uint32_t color, uint8_t brightness);
+    /// @brief sets all segments to blinking
+    /// @param color the color of the leds
+    /// @param frequency the blinking frequency
+    /// @param brightness the brightness of the leds
+    /// @param dutyCylce the blink dutycycle (relation ON to OFF)
     void setAllBlinking(uint32_t color, uint8_t frequency, uint8_t brightness, uint8_t dutyCylce);
+    /// @brief sets all segments to breathing
+    /// @param color the color of the leds
+    /// @param frequency the breathing frequency
+    /// @param minBrightness the minimum brightness of the leds
+    /// @param maxBrightness the maximum brightness of the leds
     void setAllBreathing(uint32_t color, uint8_t frequency, uint8_t minBrightness, uint8_t maxBrightness);     
 };
