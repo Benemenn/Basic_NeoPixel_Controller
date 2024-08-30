@@ -103,7 +103,7 @@ public:
     /// @param color the color the segment should show
     /// @param brightness the brightness the segment should be on
     /// @param frequency the frequency of the blinking
-    /// @param dutyCylce the duty cycle of the signal 
+    /// @param dutyCylce the duty cycle of the signal, ranges from 0 to 100%
     void setBlinking(uint32_t color, uint8_t frequency, uint8_t brightness=255, uint8_t dutyCylce=50);
     /// @brief sets the parameters so that the segment can perform a breathing. needs update() to be called cyclically after.
     /// @param color the color the segment should show 
