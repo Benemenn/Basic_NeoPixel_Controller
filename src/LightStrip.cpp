@@ -65,8 +65,6 @@ void LightStrip::testShow() {
         segment(i).setOff();
         this->update();
         delay(TEST_COLOR_DELAY_MS);
-
-        Serial.println("ich bin dafür");
     }
 
     this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
