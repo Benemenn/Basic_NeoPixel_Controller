@@ -20,7 +20,7 @@ void RectangleSignal::updateSignalParametersForBlinking(){
 
 void RectangleSignal::updateSignalParametersForBreathing(){
     this->breathingSteps = this->brightnessRange.maxBrightness - this->brightnessRange.minBrightness;
-    this->breatheDelay = this->currentPeriod_ms / this->breathingSteps;
+    this->breatheDelay = this->currentPeriod_ms / 2 / this->breathingSteps;
 }
 
 LedSegment::LedSegment(Adafruit_NeoPixel* neopixels, uint16_t startLed, uint16_t length){
@@ -39,9 +39,9 @@ uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
 
     #if defined(__AVR__)
 
-        uint8_t rPrime = ((uint16_t)r * (uint16_t)brightness) >> 8;
-        uint8_t gPrime = ((uint16_t)g * (uint16_t)brightness) >> 8;
-        uint8_t bPrime = ((uint16_t)b * (uint16_t)brightness) >> 8;
+        uint8_t rPrime = ((uint16_t)r * (uint16_t)brightness) / 256;
+        uint8_t gPrime = ((uint16_t)g * (uint16_t)brightness) / 256;
+        uint8_t bPrime = ((uint16_t)b * (uint16_t)brightness) / 256;
 
     #else
         // Source: https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
@@ -149,12 +149,14 @@ void LedSegment::update(){
                 if (stopwatch.getTimeSinceStart() > _rectangleSignal.breatheDelay){
                     if(currentBrightness + 1 >= _rectangleSignal.brightnessRange.maxBrightness){
                         currentBlinkState = LED_BLINK_STATE::BREATHE_OUT;
+                        
                     }
                     else{
                         ++currentBrightness;
                     }
+
                     currentColor = calcRGBWithBrightness(currentColor, currentBrightness);
-                    neopixelsPtr->fill(currentColor, startLed, length);
+                    neopixelsPtr->fill(this->currentColor, this->startLed, this->length);
                     xEntrySM = true; //restart timer for breathing effect
                 }
             break;
@@ -171,6 +173,7 @@ void LedSegment::update(){
                     else{
                         --currentBrightness;
                     }
+
                     currentColor = calcRGBWithBrightness(currentColor, currentBrightness);
                     neopixelsPtr->fill(currentColor, startLed, length);
 
