@@ -3,7 +3,7 @@
 
 
 RectangleSignal::RectangleSignal(uint8_t currentFrequency, uint8_t currentDutyCycle){
-    this->currentDutyCycle = currentDutyCycle;
+    this->currentDutyCycle = constrain(currentDutyCycle, 0, 100);
     this->currentFrequency = currentFrequency;
     this->brightnessRange.minBrightness = 0;
     this->brightnessRange.maxBrightness = 255;
@@ -71,7 +71,7 @@ void LedSegment::setBlinking(uint32_t color, uint8_t frequency, uint8_t brightne
     this->currentBrightness = brightness;
     this->currentColor = this->calcRGBWithBrightness(color, this->currentBrightness);
     this->_rectangleSignal.currentFrequency = frequency;
-    this->_rectangleSignal.currentDutyCycle = dutyCylce;
+    this->_rectangleSignal.currentDutyCycle = constrain(dutyCylce, 0, 100);
 
     this->_rectangleSignal.updateSignalParametersForBlinking();
 
