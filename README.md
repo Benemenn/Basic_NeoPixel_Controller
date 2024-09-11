@@ -2,8 +2,6 @@
 
 A PlatformIO library to control Neopixels. Based on the [Adafruit Neopixel Library](https://github.com/adafruit/Adafruit_NeoPixel).
 
-## TODOs:
-* Add version tag in Github and update readme with version
 
 ## Install
 ### PlatformIO
