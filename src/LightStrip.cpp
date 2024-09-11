@@ -92,7 +92,6 @@ void LightStrip::setAllOff() {
 void LightStrip::setAllStaticColor(uint32_t color, uint8_t brightness) {
     for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].setStaticColor(color, brightness);
-        Serial.println(i);
     }
 }
 void LightStrip::setAllBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness, uint8_t dutyCylce) {
