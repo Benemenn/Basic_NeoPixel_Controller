@@ -43,7 +43,7 @@ void LightStrip::update() {
 }
 void LightStrip::testShow() {
     const uint16_t TEST_COLOR_DELAY_MS = 400;
-    const uint8_t BRIGHTNESS    = 255;
+    const uint8_t  BRIGHTNESS    = 255;
     const uint32_t COLOR_RED    = 0x00FF0000;
     const uint32_t COLOR_GREEN  = 0x0000FF00;
     const uint32_t COLOR_BLUE   = 0x000000FF;
@@ -67,6 +67,8 @@ void LightStrip::testShow() {
         delay(TEST_COLOR_DELAY_MS);
     }
 
+    Serial.println("For done");
+
     this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
     this->update();
     delay(TEST_COLOR_DELAY_MS);
@@ -83,22 +85,23 @@ void LightStrip::testShow() {
     this->update();
 }
 void LightStrip::setAllOff() {
-    for(size_t i; i < segmentListSize; i++) {
+    for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].setOff();
     }
 }
 void LightStrip::setAllStaticColor(uint32_t color, uint8_t brightness) {
-    for(size_t i; i < segmentListSize; i++) {
+    for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].setStaticColor(color, brightness);
+        Serial.println(i);
     }
 }
 void LightStrip::setAllBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness, uint8_t dutyCylce) {
-    for(size_t i; i < segmentListSize; i++) {
+    for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].setBlinking(color, period_ms, brightness, dutyCylce);
     }
 }
 void LightStrip::setAllBreathing(uint32_t color, uint16_t period_ms, uint8_t minBrightness, uint8_t maxBrightness) {
-    for(size_t i; i < segmentListSize; i++) {
+    for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].setBreathing(color, period_ms, minBrightness, maxBrightness);
     }
 }    

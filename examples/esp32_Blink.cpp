@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "LightStrip.h"
 
-const uint16_t NUMBER_OF_LEDS = 30;
+const uint16_t NUMBER_OF_LEDS = 4;
 const uint8_t NEOPIXEL_PIN = 14;
 const size_t MAX_SEGMENTS = 4;
 LightStrip ledStrip(NUMBER_OF_LEDS, NEOPIXEL_PIN, MAX_SEGMENTS);
@@ -10,6 +10,7 @@ const uint32_t COLOR_RED    = 0x00FF0000;
 const uint32_t COLOR_GREEN  = 0x0000FF00;
 const uint32_t COLOR_BLUE   = 0x000000FF;
 const uint32_t COLOR_WHITE  = 0x00FFFFFF;
+
 
 void setup() {
     // Serial:
@@ -20,22 +21,24 @@ void setup() {
     ledStrip.begin();
 
     // Segments:
-    ledStrip.createSegment(0, 5);   //  0 -  4
-    ledStrip.createSegment(5, 10);  //  5 - 14
-    ledStrip.createSegment(15, 7);  // 15 - 21
-    ledStrip.createSegment(22, 8);  // 22 - 29
-
-    ledStrip[0].setBlinking(COLOR_RED, 2);
-    ledStrip[1].setBlinking(COLOR_GREEN, 5);
-    ledStrip[2].setBlinking(COLOR_BLUE, 1, 255, 20);
-    ledStrip[3].setBlinking(COLOR_WHITE, 20, 50);
+    ledStrip.createSegment(0, 1);   //  0 -  2
+    ledStrip.createSegment(1, 1);  //  3 - 6
+    ledStrip.createSegment(2, 1);  // 7 - 10
+    ledStrip.createSegment(3, 1);  // 10 - 12
 
     // Test show:
     Serial.print("Testing leds...");
     ledStrip.testShow();
     Serial.println("done!");
 
+    ledStrip[0].setBlinking(ColorModifier::rgbColorToUint32(255, 255, 0), 2000, 50, 10);
+    ledStrip[1].setBlinking(COLOR_GREEN, 500);
+    ledStrip[2].setBreathing(COLOR_BLUE, 1000, 10, 200);
+    ledStrip[3].setBlinking(COLOR_WHITE, 1000, 50);
+
+
     Serial.println("Setup done!");
+    delay(2000);
 }
 
 void loop() {
