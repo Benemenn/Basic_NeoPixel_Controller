@@ -42,7 +42,7 @@ void LightStrip::update() {
     neopixels.show();
 }
 void LightStrip::testShow() {
-    const uint16_t TEST_COLOR_DELAY_MS = 400;
+    const uint16_t TEST_COLOR_DELAY_MS = 250;
     const uint8_t  BRIGHTNESS    = 255;
     const uint32_t COLOR_RED    = 0x00FF0000;
     const uint32_t COLOR_GREEN  = 0x0000FF00;
@@ -66,8 +66,6 @@ void LightStrip::testShow() {
         this->update();
         delay(TEST_COLOR_DELAY_MS);
     }
-
-    Serial.println("For done");
 
     this->setAllStaticColor(COLOR_RED, BRIGHTNESS);
     this->update();

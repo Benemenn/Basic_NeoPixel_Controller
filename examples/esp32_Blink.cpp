@@ -33,7 +33,7 @@ void setup() {
 
     ledStrip[0].setBlinking(ColorModifier::rgbColorToUint32(255, 255, 0), 2000, 50, 10);
     ledStrip[1].setBlinking(COLOR_GREEN, 500);
-    ledStrip[2].setBreathing(COLOR_BLUE, 1000, 10, 200);
+    ledStrip[2].setBreathing(ColorModifier::rgbColorToUint32(0,0,255), 2000, 10, 255);
     ledStrip[3].setBlinking(COLOR_WHITE, 1000, 50);
 
 

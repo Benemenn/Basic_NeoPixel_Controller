@@ -34,22 +34,25 @@ uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
     uint8_t g = (uint8_t)(color >> 8);
     uint8_t b = (uint8_t)color;
 
-    #if defined(__AVR__)
+    //#if defined(__AVR__)
 
         uint8_t rPrime = ((uint16_t)r * (uint16_t)brightness) / 256;
         uint8_t gPrime = ((uint16_t)g * (uint16_t)brightness) / 256;
         uint8_t bPrime = ((uint16_t)b * (uint16_t)brightness) / 256;
 
-    #else
-        // Source: https://stackoverflow.com/questions/596216/formula-to-determine-perceived-brightness-of-rgb-color
-        //float may cause problems with small processors
-        float fLuminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        float fScaleFactor = (float)brightness / fLuminance;
+/*    #else
+        // Calculate the perceived luminance using the human eye sensitivity weights
+        uint32_t luminance = (2126 * r + 7152 * g + 722 * b) / 10000;
 
-        uint8_t bPrime = uint8_t((float)b * fScaleFactor);
-        uint8_t gPrime = uint8_t((float)g * fScaleFactor);
-        uint8_t rPrime = uint8_t((float)r * fScaleFactor);
-    #endif
+        // Adjust brightness scaling factor based on the luminance
+        uint32_t scaleFactor = (uint32_t)brightness * 255 / luminance;
+
+        // Apply the scale factor to each color channel
+        uint8_t rPrime = constrain((r * scaleFactor) / 255, 0, 255);
+        uint8_t gPrime = constrain((g * scaleFactor) / 255, 0, 255);
+        uint8_t bPrime = constrain((b * scaleFactor) / 255, 0, 255);
+
+    #endif*/
         
     return ((uint32_t)rPrime << 16) | ((uint32_t)gPrime << 8) | (uint32_t)bPrime;
     
