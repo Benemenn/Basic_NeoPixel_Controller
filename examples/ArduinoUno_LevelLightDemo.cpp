@@ -5,6 +5,7 @@ const uint16_t NUMBER_OF_LEDS = 14;
 const uint8_t NEOPIXEL_PIN = 9;
 const size_t MAX_SEGMENTS = 4;
 LightStrip ledStrip(NUMBER_OF_LEDS, NEOPIXEL_PIN, MAX_SEGMENTS);
+bool xEntry;
 
 void setup() {
     // Serial:
@@ -24,6 +25,7 @@ void setup() {
     Serial.println("done!");
 
     Serial.println("Setup done!");
+    xEntry = true;
 }
 
 long lastChange = 0;
@@ -34,19 +36,35 @@ void loop() {
 
     switch(state) {
         case 0:
-            ledStrip[0].setBlinking(0x0000B1AC, 1000, 50);
+            if(xEntry){
+                xEntry = false;
+                ledStrip[0].setBlinking(0x0000B1AC, 1000, 50);
+            }
+            
             break;
         case 1:
+        if(xEntry){
+                xEntry = false;
             ledStrip[0].setStaticColor(0x00787800);
+        }
             break;
         case 2:
+        if(xEntry){
+                xEntry = false;
             ledStrip[0].setBlinking(0x003219AC, 500, 20);
+        }
             break;
         case 3:
+        if(xEntry){
+                xEntry = false;
             ledStrip[0].setBlinking(0x000000FF, 2000);
+        }
             break;
         case 4:
+        if(xEntry){
+                xEntry = false;
             ledStrip[0].setBreathing(0x0000FF00, 1000, 10, 200);
+        }
             break;
     }
 
@@ -54,5 +72,6 @@ void loop() {
        state = (state + 1) % numberOfStates;
        lastChange = millis();
        Serial.println("next state: " + String(state));
+       xEntry = true;
     } 
 }

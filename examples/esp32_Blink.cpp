@@ -31,9 +31,9 @@ void setup() {
     ledStrip.testShow();
     Serial.println("done!");
 
-    ledStrip[0].setBlinking(ColorModifier::rgbColorToUint32(255, 255, 0), 2000, 50, 10);
+    ledStrip[0].setBlinking(ColorModifier::RED, 2000, 50, 10);
     ledStrip[1].setBlinking(COLOR_GREEN, 500);
-    ledStrip[2].setBreathing(ColorModifier::rgbColorToUint32(0,0,255), 2000, 10, 255);
+    ledStrip[2].setBreathing(ColorModifier::rgbColorToUint32(132, 0, 250), 10000, 10, 255);
     ledStrip[3].setBlinking(COLOR_WHITE, 1000, 50);
 
 

@@ -29,30 +29,15 @@ LedSegment::LedSegment(Adafruit_NeoPixel* neopixels, uint16_t startLed, uint16_t
 
 
 uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
-
     uint8_t r = (uint8_t)(color >> 16);
     uint8_t g = (uint8_t)(color >> 8);
     uint8_t b = (uint8_t)color;
 
-    //#if defined(__AVR__)
 
-        uint8_t rPrime = ((uint16_t)r * (uint16_t)brightness) / 256;
-        uint8_t gPrime = ((uint16_t)g * (uint16_t)brightness) / 256;
-        uint8_t bPrime = ((uint16_t)b * (uint16_t)brightness) / 256;
+    uint8_t rPrime = ((uint32_t)r * (uint32_t)brightness) / 255;
+    uint8_t gPrime = ((uint32_t)g * (uint32_t)brightness) / 255;
+    uint8_t bPrime = ((uint32_t)b * (uint32_t)brightness) / 255;
 
-/*    #else
-        // Calculate the perceived luminance using the human eye sensitivity weights
-        uint32_t luminance = (2126 * r + 7152 * g + 722 * b) / 10000;
-
-        // Adjust brightness scaling factor based on the luminance
-        uint32_t scaleFactor = (uint32_t)brightness * 255 / luminance;
-
-        // Apply the scale factor to each color channel
-        uint8_t rPrime = constrain((r * scaleFactor) / 255, 0, 255);
-        uint8_t gPrime = constrain((g * scaleFactor) / 255, 0, 255);
-        uint8_t bPrime = constrain((b * scaleFactor) / 255, 0, 255);
-
-    #endif*/
         
     return ((uint32_t)rPrime << 16) | ((uint32_t)gPrime << 8) | (uint32_t)bPrime;
     
@@ -88,7 +73,7 @@ void LedSegment::setBreathing(uint32_t color, uint16_t period_ms, uint8_t minBri
     this->_rectangleSignal.brightnessRange.maxBrightness = maxBrightness;
     this->currentBrightness = this->_rectangleSignal.brightnessRange.minBrightness; //start at low brightness breathing!
     this->_rectangleSignal.currentPeriod_ms = period_ms;
-    this->currentColor = this->calcRGBWithBrightness(color, this->currentBrightness);
+    this->currentColor = color;
     this->_rectangleSignal.updateSignalParametersForBreathing();
 
     xEntrySM = true;
