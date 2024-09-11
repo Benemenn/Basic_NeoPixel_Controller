@@ -1,11 +1,11 @@
 /**
  * @file LedSegment.h
- * @author Ben Cloos <<b.cloos@icloud.com>>, Johannes Schramm
+ * @author Ben Cloos, Johannes Schramm
  * @brief A class for controlling an Adafruit NeoPixel LED strip.
  * 
  * 
  * @version 0.1
- * @date 2024-08_30
+ * @date 2024-08-30
  * 
  * @copyright Copyright (c) 2024 Ben Cloos & Johannes Schramm.
  * 

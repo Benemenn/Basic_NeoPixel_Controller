@@ -11,15 +11,15 @@
     "authors": [ {
       "name": "Ben Cloos",
       "maintainer": true
-    },{
+      },{
         "name": "Johannes Schramm"
-    }],
+      }],
     "license": "MIT",
     "frameworks": "arduino",
     "platforms": "*",
     "headers": "LightStrip.h",
     "dependencies": {
         "adafruit/Adafruit NeoPixel": "^1.12.0",
-	    "johannesschramm/ArduinoStopwatch": "^1.0.2"
+	      "johannesschramm/ArduinoStopwatch": "^1.0.2"
     }
   }
