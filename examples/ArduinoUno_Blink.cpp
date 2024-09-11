@@ -11,6 +11,7 @@ const uint32_t COLOR_GREEN  = 0x0000FF00;
 const uint32_t COLOR_BLUE   = 0x000000FF;
 const uint32_t COLOR_WHITE  = 0x00FFFFFF;
 
+
 void setup() {
     // Serial:
     Serial.begin(115200);
@@ -30,7 +31,7 @@ void setup() {
     ledStrip.testShow();
     Serial.println("done!");
 
-    ledStrip[0].setBlinking(COLOR_RED, 2000, 150, 10);
+    ledStrip[0].setBlinking(ColorModifier::rgbColorToUint32(255, 255, 0), 2000, 50, 10);
     ledStrip[1].setBlinking(COLOR_GREEN, 500);
     ledStrip[2].setBreathing(COLOR_BLUE, 1000, 10, 200);
     ledStrip[3].setBlinking(COLOR_WHITE, 1000, 50);

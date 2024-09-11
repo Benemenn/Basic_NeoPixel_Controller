@@ -62,6 +62,25 @@ public:
 };
 
 
+
+///@class ColorModifier
+///@brief A utility class for modifying and transforming color values.
+///The ColorModifier class provides static methods for manipulating color values, such as converting
+///RGB values to a 32-bit integer representation. This class cannot be instantiated.
+class ColorModifier{
+    public:
+        ///@brief Deleted default constructor to prevent instantiation.
+        ///The default constructor is deleted to enforce the use of static methods only.
+        ColorModifier() = delete;
+        ///@brief Converts 8-bit RGB color values to a 32-bit unsigned integer.
+        ///@param r The red color component (0-255).
+        ///@param g The green color component (0-255).
+        ///@param b The blue color component (0-255).
+        ///@return uint32_t The combined 32-bit color value in the format 0x00RRGGBB.
+        static uint32_t rgbColorToUint32(uint8_t r, uint8_t g, uint8_t b);
+};
+
+
 /// @brief This class represents one segment on an ledstrip.
 /// The class uses the Adafruit_Neopixel library and builds onto it.
 /// The class provides the possibility for a user to control a specific element with different animations.
@@ -113,4 +132,6 @@ public:
     void setBreathing(uint32_t color, uint16_t period_ms, uint8_t minBrightness=0, uint8_t maxBrightness=255);
     /// @brief needs to be called cyclically for the set...() functions to be applied to the segment. 
     void update();
+
+    
 };
