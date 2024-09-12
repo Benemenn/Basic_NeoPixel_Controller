@@ -3,7 +3,7 @@
     "name": "BasicNeopixelController",
     "version": "1.0.0",
     "description": "A PlatformIO library to control Neopixels. Based on the 'Adafruit Neopixel Library'.",
-    "keywords" : "neopixel,arduino",
+    "keywords" : "neopixel,arduino,esp,led,neopixels, non-blocking",
     "repository": {
       "type": "git",
       "url": "https://github.com/Benemenn/Basic_NeoPixel_Controller.git"
