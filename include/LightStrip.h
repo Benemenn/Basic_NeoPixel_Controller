@@ -50,8 +50,8 @@ public:
     /// @param color the color of the leds
     /// @param period_ms the blinking period
     /// @param brightness the brightness of the leds
-    /// @param dutyCylce the blink dutycycle (relation ON to OFF)
-    void setAllBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness=255, uint8_t dutyCylce=127);
+    /// @param dutyCylce the blink dutycycle (relation ON to OFF), given from 0 to 100 (%)
+    void setAllBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness=255, uint8_t dutyCylce=50);
     /// @brief sets all segments to breathing
     /// @param color the color of the leds
     /// @param period_ms the breathing period
