@@ -25,8 +25,12 @@ LedSegment::LedSegment(Adafruit_NeoPixel* neopixels, uint16_t startLed, uint16_t
     this->startLed = startLed;
     this->length = length;
 }
-
-
+uint16_t LedSegment::getStartLed() const {
+    return startLed;
+}
+uint16_t LedSegment::getLength() const {
+    return length;
+}
 
 uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
     uint8_t r = (uint8_t)(color >> 16);

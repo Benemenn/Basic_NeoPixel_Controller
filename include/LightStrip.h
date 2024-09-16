@@ -36,10 +36,21 @@ public:
     /// @param length the number of leds in the segment
     /// @return if the segment was successfully created
     bool createSegment(uint16_t startLed, uint16_t length);
+    /// @brief deletes all segments
+    void deleteAllSegments();
     /// @brief update the state and colors of the leds
     void update();
     /// @brief blocking function which makes a little test show, to check if all leds are connected and are working
     void testShow();
+    /// @brief returns the number of leds in the strip
+    /// @return number of leds
+    uint16_t getLedCount() const;
+    /// @brief returns the number of segments in the strip
+    /// @return number of segments
+    size_t getSegmentCount() const;
+    /// @brief returns the maximum number of segments
+    /// @return the maximum number of segments
+    size_t getSegmentCapacity() const;
     /// @brief sets all segments off
     void setAllOff();
     /// @brief sets all segments a static color

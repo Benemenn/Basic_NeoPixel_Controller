@@ -117,6 +117,12 @@ public:
     /// @param startLed starting led of the segment on the strip
     /// @param length the lenght of a segment
     LedSegment(Adafruit_NeoPixel* neopixels, uint16_t startLed, uint16_t length);
+    /// @brief returns the index of the first led
+    /// @return index of first led
+    uint16_t getStartLed() const;
+    /// @brief returns the length of the segment
+    /// @return length of segment
+    uint16_t getLength() const;
     /// @brief turns the segment off
     void setOff();
     /// @brief appplies a static color to the segment

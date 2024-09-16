@@ -35,6 +35,10 @@ bool LightStrip::createSegment(uint16_t startLed, uint16_t length) {
     segmentListSize++;
     return true;
 }
+void LightStrip::deleteAllSegments() {
+    setAllOff();
+    segmentListSize = 0;
+}
 void LightStrip::update() {
     for(size_t i = 0; i < segmentListSize; i++) {
         segmentList[i].update();
@@ -81,6 +85,15 @@ void LightStrip::testShow() {
     delay(TEST_COLOR_DELAY_MS);
     this->setAllOff();
     this->update();
+}
+uint16_t LightStrip::getLedCount() const {
+    return neopixels.numPixels();
+}
+size_t LightStrip::getSegmentCount() const {
+    return segmentListSize;
+}
+size_t LightStrip::getSegmentCapacity() const {
+    return segmentListCapacity;
 }
 void LightStrip::setAllOff() {
     for(size_t i = 0; i < segmentListSize; i++) {
