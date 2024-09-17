@@ -49,12 +49,14 @@ uint32_t LedSegment::calcRGBWithBrightness(uint32_t color, uint8_t brightness){
 
 void LedSegment::setOff(){
     this->currentMode = LEDSEGMENT_MODE::OFF;
+    xEntrySM = true;
 }
 
 void LedSegment::setStaticColor(uint32_t color, uint8_t brightness){
     this->currentMode = LEDSEGMENT_MODE::STATIC;
     this->currentBrightness = brightness;
     this->currentColor = this->calcRGBWithBrightness(color, this->currentBrightness);
+    xEntrySM = true;
 }
 
 void LedSegment::setBlinking(uint32_t color, uint16_t period_ms, uint8_t brightness, uint8_t dutyCylce){
@@ -87,11 +89,17 @@ void LedSegment::update(){
     switch (currentMode)
     {
     case LEDSEGMENT_MODE::OFF:
-        this->neopixelsPtr->fill(0, this->startLed, this->length);
+        if(xEntrySM) {
+            xEntrySM = false;
+            this->neopixelsPtr->fill(0, this->startLed, this->length);
+        }
         break;
     
     case LEDSEGMENT_MODE::STATIC:
-        this->neopixelsPtr->fill(this->currentColor, this->startLed, this->length);
+        if(xEntrySM) {
+            xEntrySM = false;
+            this->neopixelsPtr->fill(this->currentColor, this->startLed, this->length);
+        }
         break;
 
     case LEDSEGMENT_MODE::BLINKING:
